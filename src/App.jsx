@@ -36,12 +36,45 @@ function App() {
   };
 
 
-  const handleSave = () => {
-     
-  }
+  const handleSave = (e) => {
+    let error = '';
+    if (firstName === '') 
+      error += 'First Name is required, ';
+    
+    if (lastName === '') 
+      error += 'Last Name is required, ';
+    
+    if (age <= 0) 
+      error += 'Age is required';
+    
 
+    if (error === '') {
+
+     e.preventDefault()
+     const dt = [...data]
+     const newObject = {
+        id: employeeData.length + 1,
+        firstName: firstName,
+        lastName: lastName,
+        age: age
+     }
+     dt.push(newObject)
+     setData(dt)
+  }
+    else{
+      alert(error);
+    }
+  }
   const handleUpdate = () => {
-     
+     const index = data.map((item) => {
+        return item.id
+     }).indexOf(id);
+     const dt  = [...data]
+     dt[index].firstName = firstName;
+     dt[index].lastName = lastName;
+     dt[index].age = age;
+     setData(dt);
+     handleClear();
   }
 
   const handleClear = () => {
@@ -50,6 +83,7 @@ function App() {
     setFirstName('')
     setLastName('')
     setAge('')
+   
   }
 
   return (
@@ -76,7 +110,7 @@ function App() {
               isUpdate ? 
               <button className="bg-blue-500 rounded-sm m-2 px-2" onClick={() => handleUpdate()}> Update</button>
               :
-              <button className="bg-blue-500 rounded-sm m-2 px-2" onClick={() => handleSave()}> Save</button>
+              <button className="bg-blue-500 rounded-sm m-2 px-2" onClick={(e) => handleSave(e)}> Save</button>
             }
             <button className="bg-red-700 rounded-sm m-2 px-2"onClick={() => handleClear()} > Clear</button>
           </div>
